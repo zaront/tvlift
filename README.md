@@ -7,4 +7,4 @@ the lift can be initiated by:
 * a hidden button under the picture frame
 * connecting to the TV via Chromecast
 
-the framework for the firmeware is based on the great work of [esp8266-react](https://travis-ci.org/rjwats/esp8266-react)
+the framework for the firmeware is based on the great work of [esp8266-react](https://github.com/rjwats/esp8266-react)
