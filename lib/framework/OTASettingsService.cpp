@@ -22,6 +22,7 @@ void OTASettingsService::begin() {
 void OTASettingsService::loop() {
   if (_state.enabled && _arduinoOTA) {
     _arduinoOTA->handle();
+    MDNS.update();
   }
 }
 
@@ -56,6 +57,7 @@ void OTASettingsService::configureArduinoOTA() {
       else if (error == OTA_END_ERROR)
         Serial.println(F("End Failed"));
     });
+    _arduinoOTA->setHostname(WiFi.hostname().c_str());
     _arduinoOTA->begin();
   }
 }
