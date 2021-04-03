@@ -1,4 +1,4 @@
-# TV Lift ![](/interface/public/app/logo.png)
+# TV Lift ![](/interface/public/app/logo.png?raw=true)
 
 this is the firmware for a ESP8266 to control motorized sliding picture frame to reveal a hidden TV behind it
 
