@@ -1,6 +1,6 @@
 #include <ButtonStateService.h>
 
-ButtonStateService::ButtonStateService(AsyncWebServer *server, SecurityManager *securityManager) :
+ButtonStateService::ButtonStateService(AsyncWebServer* server, SecurityManager* securityManager) :
     _webSocket(ButtonState::read,
                ButtonState::update,
                this,
@@ -8,13 +8,11 @@ ButtonStateService::ButtonStateService(AsyncWebServer *server, SecurityManager *
                BUTTON_URL,
                securityManager,
                AuthenticationPredicates::IS_AUTHENTICATED) {
-
   // event handler
-  addUpdateHandler([&](const String &originId) { onConfigUpdated(); }, false);
+  addUpdateHandler([&](const String& originId) { onConfigUpdated(); }, false);
 }
 
 void ButtonStateService::begin() {
-
   // configure the button
   _button.attach(BUTTON_PIN, INPUT_PULLUP);
   _button.interval(BUTTON_BOUNCE_INTERVAL);
@@ -24,23 +22,18 @@ void ButtonStateService::begin() {
 }
 
 void ButtonStateService::onConfigUpdated() {
-  //do something when stuff changes
+  // do something when stuff changes
 }
 
 void ButtonStateService::loop() {
   _button.update();
 
-  //Serial.printf("button state: %d\n", _button.isPressed());
-
   if (_button.changed()) {
-    Serial.print("button pressed: ");
-    if (_button.rose())
-      Serial.println("true");
-    else
-      Serial.println("false");
-    JsonObject state;
+    StaticJsonDocument<256> doc;
+    JsonObject state = doc.to<JsonObject>();
     this->read(state, ButtonState::read);
-    state["button_pressed"] = _button.rose();
+    state["button_pressed"] = _button.pressed();
     this->update(state, ButtonState::update, "button");
+    Log.verbose("button pressed: %T" CR, _button.pressed());
   }
 }

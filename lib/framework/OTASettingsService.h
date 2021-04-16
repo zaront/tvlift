@@ -3,6 +3,7 @@
 
 #include <HttpEndpoint.h>
 #include <FSPersistence.h>
+#include <ArduinoLog.h>
 
 #ifdef ESP32
 #include <ESPmDNS.h>

@@ -5,6 +5,7 @@
 #include <HttpEndpoint.h>
 #include <FSPersistence.h>
 #include <JsonUtils.h>
+#include <ArduinoLog.h>
 
 #include <DNSServer.h>
 #include <IPAddress.h>

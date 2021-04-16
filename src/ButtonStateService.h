@@ -5,6 +5,8 @@
 #include <HttpEndpoint.h>
 #include <WebSocketTxRx.h>
 #include <Bounce2.h>
+#include <ArduinoJson.h>
+#include <ArduinoLog.h>
 
 #define BUTTON_PIN D3
 #define BUTTON_BOUNCE_INTERVAL 30
@@ -15,11 +17,11 @@ class ButtonState {
  public:
   bool buttonPressed;
 
-  static void read(ButtonState &state, JsonObject &root) {
+  static void read(ButtonState& state, JsonObject& root) {
     root["button_pressed"] = state.buttonPressed;
   }
 
-  static StateUpdateResult update(JsonObject &root, ButtonState &state) {
+  static StateUpdateResult update(JsonObject& root, ButtonState& state) {
     boolean buttonPressed = root["button_pressed"] | false;
     if (state.buttonPressed != buttonPressed) {
       state.buttonPressed = buttonPressed;
@@ -31,7 +33,7 @@ class ButtonState {
 
 class ButtonStateService : public StatefulService<ButtonState> {
  public:
-  ButtonStateService(AsyncWebServer *server, SecurityManager *securityManager);
+  ButtonStateService(AsyncWebServer* server, SecurityManager* securityManager);
   void begin();
   void loop();
 

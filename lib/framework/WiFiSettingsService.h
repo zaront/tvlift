@@ -6,6 +6,7 @@
 #include <FSPersistence.h>
 #include <HttpEndpoint.h>
 #include <JsonUtils.h>
+#include <ArduinoLog.h>
 
 #ifndef FACTORY_WIFI_SSID
 #define FACTORY_WIFI_SSID ""
