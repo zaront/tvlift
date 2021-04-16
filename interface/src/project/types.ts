@@ -2,8 +2,10 @@ export interface LightState {
   led_on: boolean;
 }
 
-export interface LightMqttSettings { 
-  unique_id : string;
-  name: string;
-  mqtt_path : string;
+export interface MotorState {
+  led_on: boolean;
+}
+
+export interface ButtonState {
+  button_pressed: boolean;
 }

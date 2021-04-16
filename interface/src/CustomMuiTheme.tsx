@@ -1,34 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { CssBaseline } from '@material-ui/core';
-import { MuiThemeProvider, createMuiTheme, StylesProvider } from '@material-ui/core/styles';
-import { amber, pink, lime, deepPurple, lightGreen } from '@material-ui/core/colors';
+import { CssBaseline } from "@material-ui/core";
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  StylesProvider,
+} from "@material-ui/core/styles";
+import { amber, pink, deepPurple } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#adc32b"
+      main: "#adc32b",
     },
     secondary: {
-      main: "#ac40db"
+      main: "#ac40db",
     },
     info: {
-      main: deepPurple[700]
+      main: deepPurple[700],
     },
     warning: {
-      main: amber[600]
+      main: amber[600],
     },
     error: {
-      main: pink[800]
+      main: pink[800],
     },
     success: {
-      main: "#2f4800"
-    }
+      main: "#2f4800",
+    },
   },
 });
 
 export default class CustomMuiTheme extends Component {
-
   render() {
     return (
       <StylesProvider>
@@ -39,5 +42,4 @@ export default class CustomMuiTheme extends Component {
       </StylesProvider>
     );
   }
-
 }
