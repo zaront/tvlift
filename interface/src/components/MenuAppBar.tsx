@@ -21,6 +21,7 @@ import ProjectMenu from '../project/ProjectMenu';
 import { PROJECT_NAME } from '../api';
 import { withAuthenticatedContext, AuthenticatedContextProps } from '../authentication';
 import { withFeatures, WithFeaturesProps } from '../features/FeaturesContext';
+import SystemLogController from '../system/SystemLogController';
 
 const drawerWidth = 290;
 
@@ -269,6 +270,9 @@ class MenuAppBar extends React.Component<MenuAppBarProps, MenuAppBarState> {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {children}
+          {path !== "/system/log" &&
+            <SystemLogController showIfEnabled/>
+          }
         </main>
       </div>
     );

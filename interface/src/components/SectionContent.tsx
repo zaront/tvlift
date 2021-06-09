@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SectionContentProps {
-  title: string;
+  title: string | React.ReactFragment
   titleGutter?: boolean;
 }
 

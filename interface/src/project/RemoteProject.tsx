@@ -7,10 +7,8 @@ import { PROJECT_PATH } from "../api";
 import { MenuAppBar } from "../components";
 import { AuthenticatedRoute } from "../authentication";
 
-import LightStateRestController from "./LightStateRestController";
-import LightStateWebSocketController from "./LightStateWebSocketController";
-import MotorController from "./MotorController";
-import ButtonController from "./ButtonController";
+import LiftController from "./LiftController";
+import LiftSettingsController from "./LiftSettingsController";
 
 class DemoProject extends Component<RouteComponentProps> {
   handleTabChange = (event: React.ChangeEvent<{}>, path: string) => {
@@ -25,36 +23,21 @@ class DemoProject extends Component<RouteComponentProps> {
           onChange={this.handleTabChange}
           variant="fullWidth"
         >
-          <Tab value={`/${PROJECT_PATH}/remote/rest`} label="REST Controller" />
-          <Tab
-            value={`/${PROJECT_PATH}/remote/socket`}
-            label="WebSocket Controller"
-          />
-          <Tab value={`/${PROJECT_PATH}/remote/motor`} label="Motor Light" />
-          <Tab value={`/${PROJECT_PATH}/remote/button`} label="Button" />
+          <Tab value={`/${PROJECT_PATH}/remote`} label="Remote Control" />
+          <Tab value={`/${PROJECT_PATH}/remote/settings`} label="Settings" />
         </Tabs>
         <Switch>
           <AuthenticatedRoute
             exact
-            path={`/${PROJECT_PATH}/remote/rest`}
-            component={LightStateRestController}
+            path={`/${PROJECT_PATH}/remote`}
+            component={LiftController}
           />
           <AuthenticatedRoute
             exact
-            path={`/${PROJECT_PATH}/remote/socket`}
-            component={LightStateWebSocketController}
+            path={`/${PROJECT_PATH}/remote/settings`}
+            component={LiftSettingsController}
           />
-          <AuthenticatedRoute
-            exact
-            path={`/${PROJECT_PATH}/remote/motor`}
-            component={MotorController}
-          />
-          <AuthenticatedRoute
-            exact
-            path={`/${PROJECT_PATH}/remote/button`}
-            component={ButtonController}
-          />
-          <Redirect to={`/${PROJECT_PATH}/remote/socket`} />
+          <Redirect to={`/${PROJECT_PATH}/remote`} />
         </Switch>
       </MenuAppBar>
     );

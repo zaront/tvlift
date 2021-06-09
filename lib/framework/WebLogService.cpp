@@ -43,7 +43,7 @@ WebLogService::WebLogService(AsyncWebServer* server, const String& url) {
   });
 
   // set welcome message
-  _eventSource.onConnect([](AsyncEventSourceClient* client) { client->send("connected", NULL, millis(), 1000); });
+  _eventSource.onConnect([](AsyncEventSourceClient* client) { client->send("listening to log...", NULL, millis(), 1000); });
 }
 
 void WebLogService::begin(Print* parentOutput) {
