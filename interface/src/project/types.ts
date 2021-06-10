@@ -26,11 +26,12 @@ export interface LiftCommand {
 }
 
 export interface LiftState {
-  liftStatus: "raising" | "lowering" | "stopped";
-  sendingOffCommand: boolean;
+  motorState: "off" | "stopped" | "raising" | "lowering";
   position: number;
+  sendingTvCode: boolean;
   chromecastStatus: string;
   buttonPressed: boolean;
+  limitSwitchPressed: boolean;
 }
 
 export interface LiftSettings {
@@ -39,6 +40,7 @@ export interface LiftSettings {
   maxSpeed: number;
   acceleration: number;
   disconnectTimeout: number;
-  tvCode: string;
+  tvCodeOn: string;
+  tvCodeOff: string;
   chromecast: string;
 }

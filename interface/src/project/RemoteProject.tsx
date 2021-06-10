@@ -23,7 +23,7 @@ class DemoProject extends Component<RouteComponentProps> {
           onChange={this.handleTabChange}
           variant="fullWidth"
         >
-          <Tab value={`/${PROJECT_PATH}/remote`} label="Remote Control" />
+          <Tab value={`/${PROJECT_PATH}/remote/`} label="Remote Control" />
           <Tab value={`/${PROJECT_PATH}/remote/settings`} label="Settings" />
         </Tabs>
         <Switch>
