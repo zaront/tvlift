@@ -35,28 +35,28 @@ void OTASettingsService::configureArduinoOTA() {
     _arduinoOTA = nullptr;
   }
   if (_state.enabled) {
-    Log.trace(F("Starting OTA Update Service..." CR));
+    //Log.trace(F("Starting OTA Update Service..." CR));
     _arduinoOTA = new ArduinoOTAClass;
     _arduinoOTA->setPort(_state.port);
     _arduinoOTA->setPassword(_state.password.c_str());
     _arduinoOTA->onStart([]() { Log.trace(F("Starting" CR)); });
     _arduinoOTA->onEnd([]() { Log.trace(F("\r\nEnd" CR)); });
     _arduinoOTA->onProgress([](unsigned int progress, unsigned int total) {
-      Log.trace(PSTR("Progress: %u%%\r\n"), (progress / (total / 100)));
+    //  Log.trace(PSTR("Progress: %u%%\r\n"), (progress / (total / 100)));
     });
-    _arduinoOTA->onError([](ota_error_t error) {
-      Log.trace("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR)
-        Log.trace(F("Auth Failed" CR));
-      else if (error == OTA_BEGIN_ERROR)
-        Log.trace(F("Begin Failed" CR));
-      else if (error == OTA_CONNECT_ERROR)
-        Log.trace(F("Connect Failed" CR));
-      else if (error == OTA_RECEIVE_ERROR)
-        Log.trace(F("Receive Failed" CR));
-      else if (error == OTA_END_ERROR)
-        Log.trace(F("End Failed" CR));
-    });
+    // _arduinoOTA->onError([](ota_error_t error) {
+    //   Log.trace("Error[%u]: ", error);
+    //   if (error == OTA_AUTH_ERROR)
+    //     Log.trace(F("Auth Failed" CR));
+    //   else if (error == OTA_BEGIN_ERROR)
+    //     Log.trace(F("Begin Failed" CR));
+    //   else if (error == OTA_CONNECT_ERROR)
+    //     Log.trace(F("Connect Failed" CR));
+    //   else if (error == OTA_RECEIVE_ERROR)
+    //     Log.trace(F("Receive Failed" CR));
+    //   else if (error == OTA_END_ERROR)
+    //     Log.trace(F("End Failed" CR));
+    // });
     _arduinoOTA->setHostname(WiFi.hostname().c_str());
     _arduinoOTA->begin();
   }

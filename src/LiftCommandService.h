@@ -3,10 +3,10 @@
 
 #include <WebSocketTxRx.h>
 #include <ArduinoLog.h>
+#include <Lift.h>
 
 #define LIFT_COMMAND_ENDPOINT "/ws/liftCommand"
 
-enum class LiftCommandType { none, up, down, nudge_up, nudge_down, stop, motor_off, tv_on, tv_off, automatic };
 static const char* LiftCommandType_str[] = {"none", "up", "down", "nudge_up", "nudge_down", "stop", "motor_off", "tv_on", "tv_off", "automatic"};
 
 class LiftCommand {
@@ -50,14 +50,13 @@ class LiftCommand {
 
 class LiftCommandService : public StatefulService<LiftCommand> {
  public:
-  LiftCommandService(AsyncWebServer* server, SecurityManager* securityManager);
+  LiftCommandService(AsyncWebServer* server, SecurityManager* securityManager, Lift* lift);
   void begin();
   void loop();
 
  private:
   WebSocketTxRx<LiftCommand> _webSocket;
-  ulong _startTime = 0;
-  ulong _timer = 0;
+  Lift* _lift;
 
   void onConfigUpdated();
 };

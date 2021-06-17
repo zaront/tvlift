@@ -3,14 +3,10 @@
 
 #include <WebSocketTxRx.h>
 #include <ArduinoLog.h>
-#include <Bounce2.h>
-
-#define BUTTON_PIN D3
-#define BUTTON_BOUNCE_INTERVAL 30
+#include <Lift.h>
 
 #define LIFT_STATUS_ENDPOINT "/ws/liftStatus"
 
-enum class MotorStatus { off, stopped, raising, lowering };
 static const char* MotorStatus_str[] = {"off", "stopped", "raising", "lowering"};
 
 class LiftStatus {
@@ -70,17 +66,15 @@ class LiftStatus {
 
 class LiftStatusService : public StatefulService<LiftStatus> {
  public:
-  LiftStatusService(AsyncWebServer* server, SecurityManager* securityManager);
+  LiftStatusService(AsyncWebServer* server, SecurityManager* securityManager, Lift* lift);
   void begin();
   void loop();
 
  private:
   WebSocketTxRx<LiftStatus> _webSocket;
-  ulong _startTime = 0;
-  ulong _timer = 0;
-  Bounce2::Button _button;
-
+  Lift* _lift;
   void onConfigUpdated();
+  MotorStatus getMotorState();
 };
 
 #endif

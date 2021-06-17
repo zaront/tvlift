@@ -1,6 +1,6 @@
 #include <LiftStatusService.h>
 
-LiftStatusService::LiftStatusService(AsyncWebServer *server, SecurityManager *securityManager) :
+LiftStatusService::LiftStatusService(AsyncWebServer *server, SecurityManager *securityManager, Lift* lift) :
     _webSocket(LiftStatus::read,
                   LiftStatus::update,
                   this,
@@ -9,17 +9,13 @@ LiftStatusService::LiftStatusService(AsyncWebServer *server, SecurityManager *se
                   securityManager,
                   AuthenticationPredicates::IS_AUTHENTICATED) {
 
+  _lift = lift;
+
   // configure settings service update handler to update LED state
   addUpdateHandler([&](const String &originId) { onConfigUpdated(); }, false);
 }
 
 void LiftStatusService::begin() {
-
-  // configure the button
-  _button.attach(BUTTON_PIN, INPUT_PULLUP);
-  _button.interval(BUTTON_BOUNCE_INTERVAL);
-  _button.setPressedState(LOW);
-
   //initial state
   _state.motorState = MotorStatus::off;
   _state.position = 0;
@@ -34,20 +30,33 @@ void LiftStatusService::onConfigUpdated() {
 
 }
 
+MotorStatus LiftStatusService::getMotorState ()
+{
+  return MotorStatus::off;
+}
+
 void LiftStatusService::loop() {
   
-  //button event
-  _button.update();
-  if (_button.changed()) {
-    //update button state
+  //calculate new status
+  LiftStatus newState = {};
+  newState.buttonPressed = _lift->button.isPressed();
+  newState.limitSwitchPressed = _lift->limitSwitch.isPressed();
+  newState.position = _lift->motor.currentPosition();
+  newState.sendingTvCode = false;
+  newState.chromecastStatus = "not configured";
+  newState.motorState = getMotorState();
+
+  //update status
+  if (!(newState == _state))
+  {
     update([&](LiftStatus& state) {
-      if (state.buttonPressed != _button.pressed())
-      {
-        state.buttonPressed = _button.pressed();
-        Log.verbose("hidden button pressed: %T" CR, state.buttonPressed);
-        return StateUpdateResult::CHANGED;
-      }
-      return StateUpdateResult::UNCHANGED;
+      state.motorState = newState.motorState;
+      state.position = newState.position;
+      state.sendingTvCode = newState.sendingTvCode;
+      state.chromecastStatus = newState.chromecastStatus;
+      state.buttonPressed = newState.buttonPressed;
+      state.limitSwitchPressed = newState.limitSwitchPressed;
+      return StateUpdateResult::CHANGED;
     },"tvlift");
   }
 }

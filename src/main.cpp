@@ -13,9 +13,10 @@
 AsyncWebServer server(80);
 ESP8266React esp8266React(&server);
 WebLogService webLogService(&server);
-LiftCommandService liftCommandService = LiftCommandService(&server, esp8266React.getSecurityManager());
-LiftSettingsService liftSettingsService = LiftSettingsService(&server, esp8266React.getFS(), esp8266React.getSecurityManager());
-LiftStatusService liftStatusService = LiftStatusService(&server, esp8266React.getSecurityManager());
+Lift lift;
+LiftCommandService liftCommandService = LiftCommandService(&server, esp8266React.getSecurityManager(), &lift);
+LiftSettingsService liftSettingsService = LiftSettingsService(&server, esp8266React.getFS(), esp8266React.getSecurityManager(), &lift);
+LiftStatusService liftStatusService = LiftStatusService(&server, esp8266React.getSecurityManager(), &lift);
 
 void setup() {
   // start logging system - log to serial + webLog
@@ -26,6 +27,8 @@ void setup() {
   // start the framework and demo project
   esp8266React.begin();
 
+  // start hardware
+  lift.begin();
   // start the services
   liftCommandService.begin();
   liftSettingsService.begin();
@@ -42,6 +45,8 @@ void setup() {
 void loop() {
   //update the framework
   esp8266React.loop();
+  //update hardware
+  lift.loop();
   //update services
   liftCommandService.loop();
   liftStatusService.loop();

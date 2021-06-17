@@ -4,6 +4,7 @@
 #include <HttpEndpoint.h>
 #include <FSPersistence.h>
 #include <ArduinoLog.h>
+#include <Lift.h>
 
 #define LIFT_SETTINGS_ENDPOINT "/rest/liftSettings"
 #define LIFT_SETTINGS_FILE "/config/liftSettings.json"
@@ -13,7 +14,7 @@ class LiftSettings {
   int maxPosition;
   int minPosition;
   int maxSpeed;
-  int acceleration;
+  float acceleration;
   int disconnectTimeout;
   String tvCodeOn;
   String tvCodeOff;
@@ -62,12 +63,13 @@ class LiftSettings {
 
 class LiftSettingsService : public StatefulService<LiftSettings> {
  public:
-  LiftSettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager);
+  LiftSettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager, Lift* lift);
   void begin();
 
  private:
   HttpEndpoint<LiftSettings> _httpEndpoint;
   FSPersistence<LiftSettings> _fsPersistence;
+  Lift* _lift;
 
   void onConfigUpdated();
 };
